@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 380" width="1000" height="380"
+     font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#555"/>
+    </marker>
+  </defs>
+  <rect x="10" y="130" width="125" height="62" rx="6" fill="#eef2f7" stroke="#557" stroke-width="1.5"/>
+  <text x="72" y="157" font-size="16" text-anchor="middle" fill="#223">your laptop</text>
+  <text x="72" y="177" font-size="13" text-anchor="middle" fill="#667">1 core, your data</text>
+  <line x1="137" y1="161" x2="192" y2="161" stroke="#555" stroke-width="1.8" marker-end="url(#ar)"/>
+  <text x="164" y="152" font-size="13" text-anchor="middle" fill="#555">ssh</text>
+  <rect x="196" y="130" width="160" height="62" rx="6" fill="#fdf0ef" stroke="#b23" stroke-width="1.8"/>
+  <text x="276" y="157" font-size="16" text-anchor="middle" fill="#223">login node</text>
+  <text x="276" y="177" font-size="13" text-anchor="middle" fill="#b23">shared with everyone</text>
+  <text x="276" y="212" font-size="13" text-anchor="middle" fill="#b23">edit + submit only</text>
+  <line x1="358" y1="161" x2="418" y2="161" stroke="#555" stroke-width="1.8" marker-end="url(#ar)"/>
+  <text x="388" y="152" font-size="13" text-anchor="middle" fill="#555">sbatch</text>
+  <rect x="422" y="118" width="170" height="86" rx="6" fill="#eef7ef" stroke="#375" stroke-width="1.8"/>
+  <text x="507" y="148" font-size="16" text-anchor="middle" fill="#223">Slurm</text>
+  <text x="507" y="169" font-size="13" text-anchor="middle" fill="#667">the queue decides</text>
+  <text x="507" y="187" font-size="13" text-anchor="middle" fill="#667">when + where</text>
+  <g stroke="#555" stroke-width="1.5" marker-end="url(#ar)" fill="none">
+    <path d="M594,150 C630,150 630,68 656,68"/>
+    <path d="M594,157 C630,157 630,120 656,120"/>
+    <path d="M594,168 C630,168 630,172 656,172"/>
+    <path d="M594,175 C630,175 630,224 656,224"/>
+  </g>
+  <g>
+    <rect x="660" y="46" width="180" height="44" rx="5" fill="#f4f6f8" stroke="#557"/>
+    <text x="750" y="73" font-size="15" text-anchor="middle" fill="#223">compute node</text>
+    <rect x="660" y="98" width="180" height="44" rx="5" fill="#f4f6f8" stroke="#557"/>
+    <text x="750" y="125" font-size="15" text-anchor="middle" fill="#223">compute node</text>
+    <rect x="660" y="150" width="180" height="44" rx="5" fill="#f4f6f8" stroke="#557"/>
+    <text x="750" y="177" font-size="15" text-anchor="middle" fill="#223">compute node</text>
+    <rect x="660" y="202" width="180" height="44" rx="5" fill="#f4f6f8" stroke="#557"/>
+    <text x="750" y="229" font-size="15" text-anchor="middle" fill="#223">compute node</text>
+  </g>
+  <text x="880" y="150" font-size="14" fill="#667">× thousands</text>
+  <rect x="196" y="300" width="644" height="52" rx="6" fill="#f7f4ee" stroke="#875" stroke-width="1.5"/>
+  <text x="518" y="325" font-size="16" text-anchor="middle" fill="#223">shared filesystem</text>
+  <text x="518" y="344" font-size="13" text-anchor="middle" fill="#667">$HOME (small, backed up) · /data/gpfs/projects (big, not backed up)</text>
+  <g stroke="#875" stroke-width="1.2" stroke-dasharray="4 3">
+    <line x1="207" y1="192" x2="207" y2="300"/>
+    <line x1="750" y1="246" x2="750" y2="300"/>
+  </g>
+</svg>

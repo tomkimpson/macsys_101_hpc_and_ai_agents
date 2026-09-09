@@ -1,0 +1,4 @@
+# Wrapped source lines should not become <br>. Paragraphs break on blank lines.
+options:
+  markdown:
+    breaks: false

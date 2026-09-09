@@ -80,7 +80,7 @@ Tom Kimpson
 
 MACSYS 101 series · September 2026
 
-<span class="small">Follow along afterwards: `github.com/tomkimpson/...` <!-- EDIT: repo URL --></span>
+<span class="small">Follow along afterwards: `github.com/tomkimpson/macsys_101_hpc_and_ai_agents`</span>
 
 ---
 
@@ -813,7 +813,7 @@ Consider budgeting for AI usage on any grant applications.
 
 This talk + scripts can be found at
 
-## `github.com/tomkimpson/...`
+## `github.com/tomkimpson/macsys_101_hpc_and_ai_agents`
 
 <span class="small">
 

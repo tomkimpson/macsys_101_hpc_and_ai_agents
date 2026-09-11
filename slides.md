@@ -655,8 +655,8 @@ closed *model*. On how far the open-weight models actually trail:
 
 demo
 1. Lets fix this bug...
-2. Lets soup-up our MCMC to use JAX, Hamiltonain Monte Carlo with autodiff, and create a visualisation
-
+2. Lets soup-up our MCMC to use JAX, Hamiltonain Monte Carlo with autodiff, and create a visualisation...
+3. Lets vibe code this UI...
 
 ---
 
@@ -668,25 +668,26 @@ demo
 
 <div>
 
-### How to drive it
-
 - **Research is not vibe-coding an app.** The litmus test: *would you recognise a wrong answer?* 
 - **Good software engineering matters more, not less.** Branches, PRs, small commits, unit tests, etc.
 - **Keep asks small; `/clear` often.** Hallucinations, unwanted changes, weakened tests and mostly context problems.
 - **Parallel agents/tabs work, but easy to lose track.** Start with one.
 - **Bio work often banned from using top models** !!!
 
+
 </div>
 
 <div>
 
-### Stuff to definitely delegate
+- **Get model B to review the work of model A** e.g. `/codex:adversarial-review`
+- **Create custom skills** - just a text file. You can ask claude to create new skills, or there are a bunch online
+- **Delegate straightforward stuff**
+  - - Plotting and figure iteration
+  - File I/O, format wrangling, data munging
+  - Test scaffolds around code you already trust
+  - Mechanical refactors, porting between languages
+  - Reading an unfamiliar codebase &mdash; ask before you edit
 
-- Plotting and figure iteration
-- File I/O, format wrangling, data munging
-- Test scaffolds around code you already trust
-- Mechanical refactors, porting between languages
-- Reading an unfamiliar codebase &mdash; ask before you edit
 
 
 </div>

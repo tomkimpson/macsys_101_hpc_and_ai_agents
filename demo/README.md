@@ -48,22 +48,31 @@ because one member is hours of compute.
 
 ## Setup
 
+Written for **OzSTAR** (Swinburne). `python-scientific` supplies numpy, scipy
+and matplotlib; the venv adds `emcee` and `corner` on top of them, which is why
+it is created with `--system-site-packages`.
+
 ```bash
 module purge
-module load foss/2022a Python/3.10.4          # Spartan; adjust for your site
-python -m venv ~/venvs/macsys
-source ~/venvs/macsys/bin/activate
+module load python-scientific/3.11.3-foss-2023a   # OzSTAR; adjust for your site
+python3 -m venv --system-site-packages /fred/oz022/$USER/venvs/macsys
+source /fred/oz022/$USER/venvs/macsys/bin/activate
 pip install -r requirements.txt
 ```
 
-Then edit `--account=` and `--partition=` in the job scripts.
+Once, from the login node. Every job script then repeats the `module load` and
+the `source`, because a batch job starts in a fresh shell that has inherited
+none of it.
+
+The scripts are set to `--account=oz022` and `--partition=skylake`. Change the
+account if you are on a different project; `sinfo -s` lists the partitions.
 
 ## Run it
 
 ```bash
 ./01_run.sh                                     # on your laptop, first
 sbatch 01_run.sh                                # one job, on the cluster
-seff <jobid>                                    # what did it actually use?
+jobreport <jobid>                               # what did it actually use?
 
 A=$(sbatch --parsable 02_sweep.sh)              # 100 fits, 20 at a time
 sbatch --dependency=afterok:$A 02_collate.sh    # -> inference.png
@@ -107,5 +116,12 @@ scancel   kill            sacct -j <id>  what happened to it?
 Plus the one everybody should use and nobody does:
 
 ```
-seff <jobid>              how much of what I asked for did I use?
+jobreport <jobid>         how much of what I asked for did I use?
+```
+
+`jobreport` is OzSTAR's own wrapper. Elsewhere the equivalent is `seff`, which
+OzSTAR does not install. Either way the portable fallback is:
+
+```
+sacct -j <jobid> --format=JobID,State,Elapsed,TotalCPU,ReqMem,MaxRSS
 ```

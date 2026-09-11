@@ -5,24 +5,35 @@ cannot work out by reading the code. Get these wrong and jobs get rejected.
 
 ## Where we are
 
-- Cluster: **Spartan**, University of Melbourne (`spartan.hpc.unimelb.edu.au`).
+- Cluster: **OzSTAR / Ngarrgu Tindebeek**, Swinburne (`ozstar.swin.edu.au`).
+  The login nodes are called `farnarkle1` / `farnarkle2`.
 - Scheduler: **Slurm**. Modules are **Lmod** (`module spider` to search).
-- Project account: `punimXXXX`. Every `sbatch` needs `--account=punimXXXX`.
-- Partitions we may use: `cascade` (CPU), `sapphire` (CPU, newer),
-  `gpu-a100` (GPU), `interactive` (short debug sessions only).
+- Project account: `oz022`. Every `sbatch` needs `--account=oz022`.
+- Partitions we may use: `skylake` (CPU, the default), `milan` (CPU, newer),
+  `milan-gpu` / `skylake-gpu` (GPU), `datamover` (large transfers only).
   **Do not invent partition names.** If unsure, run `sinfo -s` and read.
-- Project storage: `/data/gpfs/projects/punimXXXX/`. Not backed up.
-  `$HOME` is small and backed up: code there, data in project storage.
+- Project storage: `/fred/oz022/`. Not backed up. `$HOME` is 20 GB and
+  backed up: code there, data and venvs in `/fred`.
 
 ## Environment
 
 ```bash
 module purge
-module load foss/2022a Python/3.10.4
-source ~/venvs/macsys/bin/activate
+module load python-scientific/3.11.3-foss-2023a
+source /fred/oz022/${USER}/venvs/macsys/bin/activate
 ```
 
 Every job script must do this. There is no usable system Python.
+
+- There is **no bare `Python/x.y.z` module on OzSTAR** — it is
+  `python-scientific/<version>-foss-<year>`, which bundles numpy, scipy,
+  matplotlib, pandas and astropy.
+- `emcee` and `corner` are not in any module, which is the only reason the
+  venv exists. It was made with `--system-site-packages` so it sits on top of
+  `python-scientific` rather than rebuilding numpy. Do not recreate it without
+  that flag.
+- `module purge` leaves `nvidia/.latest` and `slurm/.latest` loaded and says
+  so on stderr. That is normal; it is not an error to chase.
 
 ## The code
 
@@ -50,9 +61,12 @@ Every job script must do this. There is no usable system Python.
 - Always throttle arrays: `--array=0-99%20`. Never submit an unthrottled
   array larger than 50 tasks — it is antisocial and our fair-share score
   pays for it.
-- Right-size requests. Check with `seff <jobid>` after a job finishes and
+- Right-size requests. Check with `jobreport <jobid>` after a job finishes and
   bring `--mem` and `--time` down to roughly 1.5x what was actually used.
   Over-requesting is the main reason jobs sit in the queue.
+  **`seff` does not exist on OzSTAR** and neither does `jobstats` (it is
+  installed but broken). Use `jobreport`, or
+  `sacct -j <id> --format=JobID,State,Elapsed,TotalCPU,ReqMem,MaxRSS`.
 - Logs go to `logs/`, named `%x-%j.out` (or `%x-%A_%a.out` for arrays).
 - Never run the simulation on the login node. Use `sinteractive` to debug.
 

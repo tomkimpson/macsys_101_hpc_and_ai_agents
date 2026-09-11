@@ -10,8 +10,8 @@
 # command. Slurm stops reading directives at the first non-comment line.
 
 #SBATCH --job-name=ou-fit              # what it's called in squeue
-#SBATCH --account=punimXXXX            # which project gets billed  <-- EDIT
-#SBATCH --partition=cascade            # which pool of nodes        <-- CHECK
+#SBATCH --account=oz022                # which project gets billed  <-- EDIT
+#SBATCH --partition=skylake            # OzSTAR default CPU pool    <-- CHECK
 #SBATCH --time=00:05:00                # walltime limit: HH:MM:SS
 #SBATCH --ntasks=1                     # one process...
 #SBATCH --cpus-per-task=1              # ...on one core
@@ -27,12 +27,12 @@ mkdir -p logs results
 # Only load modules when we are actually on the cluster.
 if [[ -n "${SLURM_JOB_ID:-}" ]]; then
     module purge
-    module load foss/2022a Python/3.10.4
-    source "${HOME}/venvs/macsys/bin/activate"
+    module load python-scientific/3.11.3-foss-2023a
+    source "/fred/oz022/${USER}/venvs/macsys/bin/activate"
     echo "job ${SLURM_JOB_ID} on $(hostname) starting at $(date)"
 fi
 
 python 01_mcmc.py --out posterior.png
 
 echo "finished at $(date)"
-# Then:  seff $SLURM_JOB_ID   -- and bring --mem and --time down to fit.
+# Then:  jobreport $SLURM_JOB_ID   -- and bring --mem and --time down to fit.

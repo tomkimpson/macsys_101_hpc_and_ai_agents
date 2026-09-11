@@ -6,8 +6,8 @@
 #   sbatch 02_sweep.sh
 
 #SBATCH --job-name=fit-many
-#SBATCH --account=punimXXXX            # <-- EDIT
-#SBATCH --partition=cascade            # <-- CHECK
+#SBATCH --account=oz022                # your OzSTAR project  <-- EDIT
+#SBATCH --partition=skylake            # default CPU pool     <-- CHECK
 #SBATCH --time=00:05:00                # per TASK, not for the whole array
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -18,8 +18,8 @@
 set -euo pipefail
 
 module purge
-module load foss/2022a Python/3.10.4
-source "${HOME}/venvs/macsys/bin/activate"
+module load python-scientific/3.11.3-foss-2023a
+source "/fred/oz022/${USER}/venvs/macsys/bin/activate"
 
 echo "task ${SLURM_ARRAY_TASK_ID} of array ${SLURM_ARRAY_JOB_ID} on $(hostname)"
 

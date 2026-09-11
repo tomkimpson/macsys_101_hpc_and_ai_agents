@@ -4,8 +4,8 @@
 # Slurm holds this job until every task of the array has exited cleanly.
 
 #SBATCH --job-name=fit-collate
-#SBATCH --account=punimXXXX            # <-- EDIT
-#SBATCH --partition=cascade            # <-- CHECK
+#SBATCH --account=oz022                # your OzSTAR project  <-- EDIT
+#SBATCH --partition=skylake            # default CPU pool     <-- CHECK
 #SBATCH --time=00:05:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -15,7 +15,7 @@
 set -euo pipefail
 
 module purge
-module load foss/2022a Python/3.10.4
-source "${HOME}/venvs/macsys/bin/activate"
+module load python-scientific/3.11.3-foss-2023a
+source "/fred/oz022/${USER}/venvs/macsys/bin/activate"
 
 srun python 02_inference.py --collate --results results --out inference.png

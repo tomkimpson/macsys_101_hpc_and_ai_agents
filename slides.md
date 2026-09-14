@@ -15,11 +15,14 @@ style: |
   section.demo strong { color: #ffd479; }
   h1 { font-size: 34px; }
   h2 { font-size: 26px; color: #444; }
+  h3 { color: #557; }
+  li strong { color: #246; }
+  a { color: #2a6496; text-decoration: underline; text-underline-offset: 2px; }
   table { font-size: 20px; margin: 0 auto; }
   th { background: #f0f0f0; }
   code { font-size: 20px; }
   pre { font-size: 19px; }
-  blockquote { border-left: 4px solid #888; color: #444; font-style: italic; }
+  blockquote { border-left: 4px solid #a72; background: #fdf6e8; padding: 10px 16px; color: #4a3a20; font-style: italic; }
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
   .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: start; }
   .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
@@ -27,12 +30,13 @@ style: |
   section.cmds table { width: 100%; margin: 0 0 4px; font-size: 17px; }
   section.cmds td { padding: 2px 7px; vertical-align: top; }
   section.cmds td:first-child { white-space: nowrap; width: 1%; }
+  section.cmds td code { white-space: nowrap; overflow-wrap: normal; }
   section.cmds h3 { margin: 12px 0 5px; }
   section.cmds h3:first-child { margin-top: 0; }
   .logo { height: 58px; display: flex; align-items: flex-end; justify-content: center; margin: 0 0 10px; }
   .logo p { margin: 0; }
   .logo img { display: block; }
-  .small { font-size: 19px; }
+  .small { font-size: 19px; line-height: 1.35; }
   .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 15px; background: #ffe7c2; color: #663; margin-left: 6px; }
   .warn { color: #b23; font-weight: bold; }
   section.tight { font-size: 20px; }
@@ -50,6 +54,11 @@ style: |
   section.divider { padding-top: 120px; }
   section.divider h1 { font-size: 46px; }
   section.divider .cols { align-items: center; }
+  section.divider, section.demo, section.dark { background: #1c2733; color: #e8eef4; --paginate-color: #6b7f93; }
+  section.divider h1, section.dark h1 { color: #fff; }
+  section.divider a, section.dark a { color: #9fb3c8; }
+  section.divider .logos img:last-of-type { filter: invert(1); }
+  section.divider img[src$="TESS-corner-plot.png"] { background: #fff; padding: 14px; border-radius: 8px; }
   .logos img { display: inline-block; margin: 0 20px; vertical-align: middle; }
   .title-fig { position: absolute; top: 50%; transform: translateY(-50%); margin: 0; }
   .title-fig img { display: block; margin: 0; }
@@ -59,6 +68,7 @@ style: |
 ---
 
 <!-- _class: lead titleslide -->
+<!-- _paginate: false -->
 
 <div class="title-fig left">
 
@@ -80,7 +90,7 @@ Tom Kimpson
 
 MACSYS 101 series · September 2026
 
-<span class="small">Follow along afterwards: `github.com/tomkimpson/macsys_101_hpc_and_ai_agents`</span>
+<span class="small"> `github.com/tomkimpson/macsys_101_hpc_and_ai_agents`</span>
 
 ---
 
@@ -170,15 +180,13 @@ Lots of science is now compute-intensive and/or scalable
 
 </div>
 
-> HPC doesn't make your code faster. It lets you run a lot of it at once, on hardware you don't own, without babysitting it.
-
 ---
 
 <!-- _class: tight -->
 
 # What a cluster actually is
 
-![w:100%](figures/cluster-diagram.svg)
+![w:1140px](figures/cluster-diagram.svg)
 
 
 ---
@@ -196,7 +204,7 @@ Lots of science is now compute-intensive and/or scalable
 - An account — request via your institution's HPC service desk
 - Know your hostname: `spartan.hpc.unimelb.edu.au` (or whichever cluster)
 - On/off campus? Some clusters require VPN from outside
-- SSH key pair — generate once, upload the public half: `ssh-keygen -t ed25519`
+
 
 </div>
 
@@ -208,8 +216,6 @@ Lots of science is now compute-intensive and/or scalable
   - Set up `~/.ssh/config` (or alias) on day one so it's just `ssh spartan`
 - **`mosh`** — ssh that survives suspend, wifi drops, and IP changes
   - Needs mosh installed on the cluster; not all sites allow it
-- **`tmux`** — run *on* the cluster. Sessions persist after you disconnect
-  - `tmux new -s work`, detach `Ctrl-b d`, come back `tmux a -t work`
 - **VSCode Remote-SSH** — edit files as if local, integrated terminal
   - Caveat: runs a server on the login node, can be resource-hungry. Some sites discourage or block it
 
@@ -220,9 +226,11 @@ Lots of science is now compute-intensive and/or scalable
 
 ---
 
+<!-- _class: tight -->
+
 # How to run a job
 
-You don't run your code directly. Instead you  **describe a job** and the scheduler (slurm = Simple Linux Unitility for Resource Management) decides when it runs.
+You don't run your code directly. Instead you  **describe a job** and the scheduler (slurm = Simple Linux Utility for Resource Management) decides when it runs.
 
 Nothing runs on the login node 
 
@@ -245,7 +253,6 @@ Nothing runs on the login node
 ### What the scheduler does
 
 - Allocates your job a place in the queue
-- Packs small honest jobs in **sooner** than big greedy ones.
 - Kills you at `--time`. 
 - Kills you at `--mem`. 
 
@@ -253,8 +260,8 @@ Nothing runs on the login node
 
 </div>
 
-> The queue is not first-come-first-served. It is an optimiser, and your resource
-> request is your bid. **Ask for less, wait less.**
+> The queue is not first-come-first-served. 
+It is an optimiser: **Ask for less, wait less.**
 
 ---
 
@@ -268,22 +275,20 @@ and instructions to the scheduler.
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=ou                # what shows up in squeue
-#SBATCH --account=punimXXXX          # who gets billed
-#SBATCH --partition=cascade          # which pool of nodes
+#SBATCH --job-name=ou-fit            # what shows up in squeue
+#SBATCH --account=oz022              # who gets billed
+#SBATCH --partition=skylake          # which pool of nodes
 #SBATCH --time=00:05:00              # HH:MM:SS — a hard kill, not a hint
 #SBATCH --ntasks=1                   # one process...
 #SBATCH --cpus-per-task=1            # ...on one core
 #SBATCH --mem=2G                     # for the whole job — also a hard kill
 #SBATCH --output=logs/%x-%j.out      # %x = job name, %j = job id
 #SBATCH --mail-type=END,FAIL         # tell me when it lands, or dies
-#SBATCH --mail-user=you@unimelb.edu.au
-
-set -euo pipefail                    # fail loudly, not silently
+#SBATCH --mail-user=you@example.edu
 
 module purge                         # start from a known state
-module load foss/2022a Python/3.10.4
-source ~/venvs/macsys/bin/activate
+module load python-scientific/3.11.3-foss-2023a
+source /fred/oz022/${USER}/venvs/macsys/bin/activate
 
 srun python 01_mcmc.py --out posterior.png
 ```
@@ -326,10 +331,6 @@ srun python 01_mcmc.py --out posterior.png
 
 
 ---
-
-<!-- _class: tight -->
-
-<!-- _class: tight -->
 
 <!-- _class: figrow -->
 
@@ -521,7 +522,7 @@ The same conversation as (1), but it can at least see the file you are in.
 
 `model + tools + loop`
 
-![w:88%](figures/agent-loop.svg)
+![w:1140px](figures/agent-loop.svg)
 
 
 
@@ -635,7 +636,7 @@ closed *model*. On how far the open-weight models actually trail:
 |---|---|
 | `/simplify` | Cleanup pass on what it just wrote: duplication, nesting, naming. Claims to preserve behaviour &mdash; so only run it with tests in place |
 | `/code-review` | Reviews the diff for correctness bugs. `--fix` applies the findings |
-| `/batch`; | Decomposes a codebase-wide change into 5&ndash;30 units, one background agent per unit, each in its own git worktree, each opening a PR |
+| `/batch` | Decomposes a codebase-wide change into 5&ndash;30 units, one background agent per unit, each in its own git worktree, each opening a PR |
 
 ### Worth knowing about
 
@@ -653,9 +654,56 @@ closed *model*. On how far the open-weight models actually trail:
 
 ---
 
+<!-- _class: tight -->
+
+# Define your own skills
+
+A skill is a folder with a `SKILL.md` in it. 
+
+<div class="cols2">
+
+<div>
+
+```markdown
+---
+name: check-refs
+description: Verify every citation resolves, and
+  supports the claim. Use before submitting.
+---
+
+1. Pull every \cite key out of the .tex
+2. Cross-check against CrossRef + arXiv
+3. Flag anything that does not resolve
+```
+
+Then `/check-refs` — or it fires by itself when the description matches.
+
+
+
+</div>
+
+<div>
+
+### e.g. 
+
+<span class="small">
+
+- [`google-deepmind/science-skills`](https://github.com/google-deepmind/science-skills) — genomics, etc. 
+- [`anthropics/skills`](https://github.com/anthropics/skills) 
+
+</span>
+
+
+
+</div>
+
+</div>
+
+---
+
 demo
 1. Lets fix this bug...
-2. Lets soup-up our MCMC to use JAX, Hamiltonain Monte Carlo with autodiff, and create a visualisation...
+2. Lets soup-up our MCMC to use JAX, Hamiltonian Monte Carlo with autodiff, and create a visualisation...
 3. Lets vibe code this UI...
 
 ---
@@ -680,9 +728,9 @@ demo
 <div>
 
 - **Get model B to review the work of model A** e.g. `/codex:adversarial-review`
-- **Create custom skills** - just a text file. You can ask claude to create new skills, or there are a bunch online
+- **Write a skill the second time you explain something.** It is a text file, and it is the cheapest thing you can do
 - **Delegate straightforward stuff**
-  - - Plotting and figure iteration
+  - Plotting and figure iteration
   - File I/O, format wrangling, data munging
   - Test scaffolds around code you already trust
   - Mechanical refactors, porting between languages
@@ -711,7 +759,7 @@ demo
 - **Say what *you* checked**, and take responsibility for the content.
 - **Make every number regenerable.** If each figure and table comes out of a script in the repo, the disclosure writes itself.
 
-<span class="small">The **Leiden Declaration on AI and Mathematics** (June 2026, endorsed by the IMU) reccomends a disclosure section
+<span class="small">The **Leiden Declaration on AI and Mathematics** (June 2026, endorsed by the IMU) recommends a disclosure section
 [leidendeclaration.ai](https://leidendeclaration.ai)</span>
 
 </div>
@@ -727,6 +775,55 @@ demo
 </div>
 
 </div>
+
+---
+
+<!-- _class: tight -->
+
+<style scoped>
+section { font-size: 18px; }
+h3 { margin: 12px 0 4px; }
+ul { margin: 4px 0; padding-left: 22px; }
+li { margin: 3px 0; }
+blockquote { margin: 12px 0 0; }
+</style>
+
+# Controversies & things to be aware of
+
+<div class="cols">
+
+<div>
+
+### Don't let it write the paper
+
+- **LLM prose is bad.** Hedged, verbose, dense, awkward flow. 
+- **Writing is thinking.** See e.g. [Your brain on ChatGPT](https://www.media.mit.edu/publications/your-brain-on-chatgpt/).
+
+### Detection is now good
+
+- **Pangram** claims a [**1-in-10,000**](https://www.pangram.com/blog/all-about-false-positives-in-ai-detectors) false-positive rate; an independent [UChicago Booth evaluation](https://www.chicagobooth.edu/review/do-ai-detectors-work-well-enough-trust) found essentially **zero** on long passages
+- **Claude [watermarks its own output](https://www.anthropic.com/news/claude-text-watermark)** (newer models, from Aug 2026 — SynthID-Text, driven by the EU AI Act). Invisible to a reader, detectable with the key.
+
+</div>
+
+<div>
+
+### arXiv will ban you
+
+- [**One year**](https://www.404media.co/new-arxiv-rules-ai-generated-papers-ban/), from May 2026, for clear evidence of *unchecked* LLM output — hallucinated references, or the chatbot's own meta-comments left in the manuscript.
+- Not a ban on using AI — a ban on not reading it. You take [full responsibility](https://info.arxiv.org/help/moderation/index.html) *"irrespective of how the contents were generated"*.
+- Fabricated references now appear in [**1 in 277**](https://retractionwatch.com/2026/05/07/one-in-277-pubmed-indexed-papers-in-2026-shows-fabricated-references-says-analysis/) biomedical papers — a 12&times; rise since 2023 (*Lancet* audit of 2.5M papers).
+
+### Nothing you type is private
+
+- [Sept 2026](https://venturebeat.com/technology/openai-solves-longstanding-math-problem-with-10-000-agent-swarm-but-cant-rule-out-benefitting-from-a-researchers-private-codex-data): OpenAI announces a Navier–Stokes result from a ~10,000-agent run. Twelve hours earlier, Buckmaster and Alpöge state that their unpublished Euler work — developed partly inside Codex — had reached OpenAI days before.
+- OpenAI denies direct access, but **cannot rule out** their de-identified data having fed model improvement.
+- Treat your data / prompts / ideas / discussions accordingly!
+
+</div>
+
+</div>
+
 
 ---
 
@@ -762,7 +859,7 @@ demo
 * **Claude Team**, 5x Max, $25 / user. 
 * **Claude Team for Scientists**, 5x Max, $15/user. See [anthropic.com/news/expanding-support-for-scientists](https://www.anthropic.com/news/expanding-support-for-scientists)
 * UoM - see Kate for a licence
-* Others - as PI to look at Claude Team for Scientists
+* Others - ask PI to look at Claude Team for Scientists
 
 Consider budgeting for AI usage on any grant applications. 
 
@@ -799,7 +896,7 @@ Consider budgeting for AI usage on any grant applications.
 - **Delegate the mechanical stuff** — plots, I/O, refactors, reading unfamiliar code.
 - **The litmus test: would you recognise a wrong answer?** If not, don't delegate it.
 - **Context is the state.** Small asks, `/clear` often.
-- **Say that you used it.** You own the result either way.
+- **Say that you used it.** You own the result.
 
 </div>
 
@@ -828,7 +925,7 @@ Claude Code: [docs.claude.com/claude-code](https://docs.claude.com/en/docs/claud
 
 ---
 
-<!-- _class: lead -->
+<!-- _class: lead dark -->
 
 # Appendix
 
@@ -921,5 +1018,9 @@ Two caveats worth knowing before you do:
   not just a technical one.
 
 
+---
 
+#### tmux is useful for agents
+- **`tmux`** — run *on* the cluster. Sessions persist after you disconnect
+  - `tmux new -s work`, detach `Ctrl-b d`, come back `tmux a -t work`
 

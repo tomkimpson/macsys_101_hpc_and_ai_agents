@@ -37,6 +37,7 @@ style: |
   .logo p { margin: 0; }
   .logo img { display: block; }
   .small { font-size: 19px; line-height: 1.35; }
+  .inline-logo { display: inline; height: 17px; width: auto; margin: 0 5px 0 0; vertical-align: -2px; }
   .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 15px; background: #ffe7c2; color: #663; margin-left: 6px; }
   .warn { color: #b23; font-weight: bold; }
   section.tight { font-size: 20px; }
@@ -671,19 +672,19 @@ A skill is a folder with a `SKILL.md` in it.
 
 ```markdown
 ---
-name: check-refs
-description: Verify every citation resolves, and
-  supports the claim. Use before submitting.
+name: make-nature-plots
+description: Modify existing plotting code 
+so that the resulting figures look clean,
+minimal, and suitable for a Nature paper.
 ---
 
-1. Pull every \cite key out of the .tex
-2. Cross-check against CrossRef + arXiv
-3. Flag anything that does not resolve
+1. Do not change the underlying data
+2. Use a sans-serif font such as Arial or Helvetica.
+3. Use 7 pt for axis labels
+4. ...
 ```
 
-Then `/check-refs` — or it fires by itself when the description matches.
-
-
+Then `/make-nature-plots` — or it fires by itself when the description matches.
 
 </div>
 
@@ -705,6 +706,44 @@ Then `/check-refs` — or it fires by itself when the description matches.
 </div>
 
 ---
+
+# autoresearch loops
+
+<div class="cols">
+
+<div>
+
+
+* Idea from [Andrej Karpathy](https://karpathy.ai). See [github](https://github.com/karpathy/autoresearch).
+
+* Useful if you have a specific quantitative metric to optimise.
+
+> "give an AI agent a small but real LLM training setup and let it experiment autonomously overnight. It modifies the code, trains for 5 minutes, checks if the result improved, keeps or discards, and repeats. You wake up in the morning to a log of experiments and (hopefully) a better model. "
+
+
+</div>
+
+<div>
+
+![w:600px](figures/gpt-karpathy.png)
+<div class="small">
+*GPT-generated image
+</div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+---
+
+
+
+
 
 
 <!-- _class: tight -->
@@ -810,7 +849,7 @@ blockquote { margin: 12px 0 0; }
 ### arXiv will ban you
 
 - [**One year**](https://www.404media.co/new-arxiv-rules-ai-generated-papers-ban/), from May 2026, for clear evidence of *unchecked* LLM output — hallucinated references, or the chatbot's own meta-comments left in the manuscript.
-- Not a ban on using AI — a ban on not reading it. You take [full responsibility](https://info.arxiv.org/help/moderation/index.html) *"irrespective of how the contents were generated"*.
+- This is not a ban on using AI. But it is a ban on not reading your work! You take [full responsibility](https://info.arxiv.org/help/moderation/index.html) *"irrespective of how the contents were generated"*.
 - Fabricated references now appear in [**1 in 277**](https://retractionwatch.com/2026/05/07/one-in-277-pubmed-indexed-papers-in-2026-shows-fabricated-references-says-analysis/) biomedical papers — a 12&times; rise since 2023 (*Lancet* audit of 2.5M papers).
 
 ### Nothing you type is private
@@ -906,7 +945,7 @@ Consider budgeting for AI usage on any grant applications.
 
 <!-- _class: lead -->
 
-# Thanks
+# Thanks!
 
 This talk + scripts can be found at
 
@@ -919,6 +958,8 @@ This talk + scripts can be found at
 Spartan docs: [dashboard.hpc.unimelb.edu.au](https://dashboard.hpc.unimelb.edu.au) ·
 Slurm docs: [slurm.schedmd.com](https://slurm.schedmd.com/documentation.html) ·
 Claude Code: [docs.claude.com/claude-code](https://docs.claude.com/en/docs/claude-code)
+
+<img class="inline-logo" src="figures/claude-code.svg" alt="Claude" />AI agents were used in writing this talk!
 
 </span>
 

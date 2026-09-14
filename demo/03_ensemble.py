@@ -55,6 +55,8 @@ def collate(args):
     d = [np.load(f) for f in files]
     n = len(d)
 
+    
+
     t = d[0]["t"]
     xs = np.array([x["x"] for x in d])                   # (n, len(t))
     mean, sd = ou.envelope(t)

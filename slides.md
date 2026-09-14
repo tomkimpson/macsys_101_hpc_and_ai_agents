@@ -591,7 +591,12 @@ closed *model*. On how far the open-weight models actually trail:
 
 
 ---
+demo
+1. Lets fix this bug...
+2. Lets soup-up our MCMC to use JAX, Hamiltonian Monte Carlo with autodiff, and create a visualisation...
+3. Lets vibe code this UI...
 
+---
 
 <!-- _class: tight cmds -->
 
@@ -701,12 +706,6 @@ Then `/check-refs` — or it fires by itself when the description matches.
 
 ---
 
-demo
-1. Lets fix this bug...
-2. Lets soup-up our MCMC to use JAX, Hamiltonian Monte Carlo with autodiff, and create a visualisation...
-3. Lets vibe code this UI...
-
----
 
 <!-- _class: tight -->
 

@@ -10,7 +10,7 @@
 # command. Slurm stops reading directives at the first non-comment line.
 
 #SBATCH --job-name=ou-fit              # what it's called in squeue
-#SBATCH --account=oz022                # which project gets billed  <-- EDIT
+#SBATCH --account=oz022                # which project gets billed  
 #SBATCH --partition=skylake            # OzSTAR default CPU pool    <-- CHECK
 #SBATCH --time=00:05:00                # walltime limit: HH:MM:SS
 #SBATCH --ntasks=1                     # one process...

@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400"
      font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif">
   <defs>
-    <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#555"/>
+    <marker id="ar" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="10"
+            refX="10.5" refY="5" orient="auto">
+      <path d="M0,0.5 L0,9.5 L13,5 z" fill="#555"/>
     </marker>
   </defs>
   <g transform="translate(0,-24)">
@@ -32,10 +33,10 @@
 
   <!-- fan out to the nodes -->
   <g stroke="#555" stroke-width="1.8" marker-end="url(#ar)" fill="none">
-    <path d="M670,142 C696,142 696,70 716,70"/>
-    <path d="M670,152 C694,152 694,128 716,128"/>
-    <path d="M670,168 C694,168 694,186 716,186"/>
-    <path d="M670,178 C696,178 696,244 716,244"/>
+    <path d="M670,142 C688,142 688,70 698,70 L716,70"/>
+    <path d="M670,152 C688,152 688,128 698,128 L716,128"/>
+    <path d="M670,168 C688,168 688,186 698,186 L716,186"/>
+    <path d="M670,178 C688,178 688,244 698,244 L716,244"/>
   </g>
 
   <!-- compute nodes -->

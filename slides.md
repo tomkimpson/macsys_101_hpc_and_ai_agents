@@ -170,7 +170,7 @@ Lots of science is now compute-intensive and/or scalable
 
 <div>
 
-### What you get instead
+### On a HPC cluster
 
 - Hundreds of independent runs at once — parameter sweeps, MCMC chains, bootstrap replicates, seeds
 - Nodes with 100s of cores, TB of RAM, GPUs
